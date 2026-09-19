@@ -11,9 +11,18 @@
   </style>
 </head>
 <body class="container py-4">
-  <header>
-    <h1 class="h3">消费记账数据看板</h1>
-    <p class="text-muted" id="sub-title">数据来源：自建教学数据（虚构）</p>
+  <header class="d-flex justify-content-between align-items-end">
+    <div>
+      <h1 class="h3">消费记账数据看板</h1>
+      <p class="text-muted" id="sub-title">数据来源：自建教学数据（虚构）</p>
+    </div>
+    <div class="mb-1">
+      <label class="form-label small mb-1" for="data-source">数据源（演示空数据状态）</label>
+      <select id="data-source" class="form-select form-select-sm">
+        <option value="data/expenses.json" selected>正常数据</option>
+        <option value="data/empty.json">空数据</option>
+      </select>
+    </div>
   </header>
 
   <p id="status" class="alert alert-warning"></p>

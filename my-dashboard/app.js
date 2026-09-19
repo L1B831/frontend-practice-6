@@ -95,4 +95,15 @@ window.addEventListener('resize', () => {
   // Chart.js 响应式默认自动处理，无需手动
 });
 
+// 交互：切换数据源（正常数据 / 空数据），用于演示空数据状态
+$('#data-source').on('change', () => {
+  $('#cards').empty();
+  if (barChart) barChart.clear();
+  if (lineChart) {
+    lineChart.destroy();
+    lineChart = null;
+  }
+  loadData();
+});
+
 loadData();
