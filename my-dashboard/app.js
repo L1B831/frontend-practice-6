@@ -17,6 +17,7 @@ const loadData = async () => {
     $('#sub-title').text(data.title + ' · 数据来源：自建教学数据（虚构）');
     $('#status').hide();
     renderCards(data);
+    renderBarChart(data);
   } catch (error) {
     $('#status').text('加载失败：' + error.message).show();
   }
@@ -38,6 +39,26 @@ const renderCards = (data) => {
         </div>
       </div>
     `);
+  });
+};
+
+// 各月各类消费：ECharts 柱状图
+let barChart = null;
+const renderBarChart = (data) => {
+  if (barChart === null) {
+    barChart = echarts.init(document.querySelector('#bar-chart'));
+  }
+  barChart.setOption({
+    title: { text: '各月各类消费支出', left: 'center' },
+    tooltip: { trigger: 'axis' },
+    legend: { bottom: 0 },
+    xAxis: { data: data.months },
+    yAxis: { name: '元' },
+    series: data.series.map(s => ({
+      name: s.category,
+      type: 'bar',
+      data: s.counts
+    }))
   });
 };
 
