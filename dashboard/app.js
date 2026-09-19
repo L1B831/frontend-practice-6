@@ -42,21 +42,23 @@ const renderCards = (data) => {
 };
 
 // 各月借阅量：ECharts 柱状图
+let barChart = null;
 const renderBarChart = (data) => {
-  const chart = echarts.init(document.getElementById('bar-chart'));
-  chart.setOption({
+  if (barChart === null) {
+    barChart = echarts.init(document.querySelector('#bar-chart'));
+  }
+  barChart.setOption({
+    title: { text: '各月各品类借阅量', left: 'center' },
     tooltip: { trigger: 'axis' },
-    legend: { data: data.series.map(s => s.category) },
-    grid: { left: 40, right: 20, top: 40, bottom: 30 },
-    xAxis: { type: 'category', data: data.months },
-    yAxis: { type: 'value' },
+    legend: { bottom: 0 },
+    xAxis: { data: data.months },
+    yAxis: { name: '册' },
     series: data.series.map(s => ({
       name: s.category,
       type: 'bar',
       data: s.counts
     }))
   });
-  window.addEventListener('resize', () => chart.resize());
 };
 
 // 借阅趋势：Chart.js 折线图
