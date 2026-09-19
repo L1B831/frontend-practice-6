@@ -62,22 +62,35 @@ const renderBarChart = (data) => {
 };
 
 // 借阅趋势：Chart.js 折线图
+let lineChart = null;
 const renderLineChart = (data) => {
-  new Chart(document.getElementById('line-chart'), {
+  if (lineChart !== null) {
+    lineChart.destroy(); // 防重复初始化
+  }
+  const ctx = document.querySelector('#line-chart');
+  lineChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: data.months,
       datasets: data.series.map(s => ({
         label: s.category,
         data: s.counts,
-        tension: 0.3
+        borderWidth: 1
       }))
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        title: { display: true, text: '借阅趋势 (单位: 册)' }
+      }
     }
   });
 };
+
+window.addEventListener('resize', () => {
+  if (barChart) barChart.resize();
+  // Chart.js 响应式默认自动处理，无需手动
+});
 
 loadData();
